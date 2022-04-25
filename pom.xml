@@ -11,7 +11,7 @@
     <modules>
         <module>kafka-basics</module>
         <module>kafkaProducerTwitter</module>
-        <module>kafka-consumer-elasticsearch</module>
+        <module>kafka-consumer</module>
         <module>kafka-streams-filter-tweets</module>
     </modules>
 

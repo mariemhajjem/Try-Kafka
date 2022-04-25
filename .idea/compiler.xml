@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="kafka-streams-filter-tweets" />
         <module name="kafka-basics" />
-        <module name="kafka-consumer-elasticsearch" />
         <module name="kafkaProducerTwitter" />
+        <module name="kafka-consumer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

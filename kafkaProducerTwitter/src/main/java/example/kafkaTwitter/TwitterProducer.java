@@ -12,15 +12,15 @@ import com.twitter.hbc.httpclient.auth.Authentication;
 import com.twitter.hbc.httpclient.auth.OAuth1;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.*;
 
 public class TwitterProducer {
-    Logger logger = LoggerFactory.getLogger(TwitterProducer.class.getName());
+    // Logger logger = LoggerFactory.getLogger(TwitterProducer.class.getName());
     public TwitterProducer() {}
 
     public static void main(String[] args) {
@@ -39,12 +39,12 @@ public class TwitterProducer {
         // add a shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(() ->{
             new MetricsProducerReporter(producer).run();
-            logger.info("stopping app...");
-            logger.info("shut down twitter client...");
+           // logger.info("stopping app...");
+            //logger.info("shut down twitter client...");
             client.stop();
-            logger.info("closing producer...");
+            //logger.info("closing producer...");
             producer.close();
-            logger.info("done!...");
+            // logger.info("done!...");
         }));
         // loop to send tweets to kafka
         // on a different thread, or multiple different threads....
@@ -58,16 +58,17 @@ public class TwitterProducer {
                 client.stop();
             }
             if(msg != null){
-                logger.info(msg);
+                //logger.info(msg);
 
                 producer.send(new ProducerRecord<>(AppConstants.TOPIC, null, msg), (recordMetadata, e) -> {
                     new MetricsProducerReporter(producer).run();
                     if(e != null)
-                        logger.error(("Erooor"+ e));
+                      //  logger.error(("Erooor"+ e));
+                        System.out.println("error")
                 });
             };
         }
-        logger.info("End of application!!");
+        // logger.info("End of application!!");
     }
     public Client createTwitterClient(BlockingQueue<String> msgQueue) {
         /** Declare the host you want to connect to, the endpoint, and authentication (basic auth or oauth) */
@@ -78,7 +79,7 @@ public class TwitterProducer {
         hosebirdEndpoint.trackTerms(terms);
 
         // These secrets should be read from a config file
-        Authentication hosebirdAuth = new OAuth1("CMR6WgmCfvJATL8DGGlrpCBC9", "a4puMvtFCq7irWzPjuLvZD4pT0G3tXNrR0vXaNk2nu4kaxvF8T", "1077161826117476352-0GODQHRRBO1eC8cPPJXctNeVNUf09v", "VKqJM4Y2AKQ1sJmYddf3Rj1nKw1EY2IBt5D81ezLjtBKq");
+        Authentication hosebirdAuth = new OAuth1(AppConstants.CONSUMER_KEY, AppConstants.CONSUMER_SECRET, AppConstants.TOKEN,AppConstants.TOKEN_SECRET);
         ClientBuilder builder = new ClientBuilder()
                 .name("Hosebird-Client-01")                              // optional: mainly for the logs
                 .hosts(hosebirdHosts)
